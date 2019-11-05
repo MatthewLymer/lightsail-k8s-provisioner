@@ -4,8 +4,9 @@
   hosts: all
   gather_facts: false  
   become: true
+
   tasks:
-  - name: Install packages that allow apt to be used over HTTPS
+  - name: Install apt packages
     apt:
       name: "{{ packages }}"
       state: present
@@ -17,3 +18,10 @@
       - curl
       - gnupg-agent
       - software-properties-common
+      - snapd
+
+  - name: Install MicroK8S
+    command: snap install microk8s --classic
+    args:
+      creates: /snap/bin/microk8s.kubectl
+
